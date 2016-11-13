@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-export TERMEX="1.0.0-alpha.1"
+export TERMEX="1.0.0-alpha.2"
 
 if [ -t 1 ]
 then

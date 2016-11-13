@@ -16,12 +16,12 @@ fi
 
 dbg installer "Copying files..."
 mkdir ~/.termex
-cp -R . ~/.termex || die 1 "Copying failed."
+cp . ~/.termex || die 1 "Copying failed."
 cd ~/.termex
 git checkout tags/$TERMEX || die 2 "Git checkout failed."
 
 dbg installer "Finishing up installation..."
 cat ~/.bashrc > "$(mktemp -p ~ .bashrc.XXXXXXXX)"
-echo -e "\nexport PATH=\"$PATH:~/.termex/bin\"" > ~/.bashrc
+echo -e "\nexport PATH=\"$PATH:~/.termex/bin\"" >> ~/.bashrc
 
 dbg installer "Installation finished."

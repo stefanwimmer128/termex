@@ -1,0 +1,26 @@
+#!bin/termex
+
+dbg installer "Installation in progress..."
+
+if [ -d ~/.termex ]
+then
+    read -p "Termex is already installed. Update? [Y|n] " -n 1 update
+    echo ""
+    
+    [ "$update" == "n" ] && exit
+    
+    dbg installer "Updating Termex..."
+    bin/termex-update
+    exit
+fi
+
+dbg installer "Downloading Termex..."
+git clone https://github.com/stefanwimmer128/termex.git ~/.termex || die 1 "Download failed."
+cd ~/.termex
+git checkout tags/$TERMEX || die 2 "Git checkout failed."
+
+dbg installer "Finishing up installation..."
+cat ~/.bashrc > "$(mktemp -p ~ .bashrc.XXXXXXXX)"
+echo -e "\nexport PATH=\"$PATH:~/.termex/bin\"" > ~/.bashrc
+
+dbg installer "Installation finished."

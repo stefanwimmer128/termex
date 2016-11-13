@@ -1,0 +1,63 @@
+#!/usr/bin/env bash
+
+export TERMEX="1.0.0-alpha.1"
+
+if [ -t 1 ]
+then
+    ncolors=$(tput colors)
+    
+    if [ -n "$ncolors" ] && [ $ncolors -ge 8 ]
+    then
+        export bold="$(tput bold)"
+        export underline="$(tput smul)"
+        export standout="$(tput smso)"
+        export normal="$(tput sgr0)"
+        export black="$(tput setaf 0)"
+        export red="$(tput setaf 1)"
+        export green="$(tput setaf 2)"
+        export yellow="$(tput setaf 3)"
+        export blue="$(tput setaf 4)"
+        export magenta="$(tput setaf 5)"
+        export cyan="$(tput setaf 6)"
+        export white="$(tput setaf 7)"
+    fi
+fi
+
+function err()
+{
+    echo "${red}ERROR${normal}: $@"
+}
+
+function die()
+{
+    err "${@:2}"
+    exit $1
+}
+
+function dbg()
+{
+    IFS="," read -ra dbgs <<< "$DEBUG"
+    for dbg in "${dbgs[@]}"
+    do
+        if [[ $dbg == $1 ]]
+        then
+            echo "$blue$1$normal ${@:2}"
+        fi
+    done
+    unset dbgs
+}
+
+function exit()
+{
+    local err=${1:-$?}
+    dbg termex "Status code: $err"
+    builtin exit $err
+}
+
+dbg termex "Termex initialized"
+
+[ -f "$1" ] || die 255 "No script to run!"
+
+dbg termex "Running script..."
+SCRIPT="$(readlink -f "$1")" . $1
+exit

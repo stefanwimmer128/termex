@@ -14,8 +14,9 @@ then
     exit
 fi
 
-dbg installer "Downloading Termex..."
-git clone https://github.com/stefanwimmer128/termex.git ~/.termex || die 1 "Download failed."
+dbg installer "Copying files..."
+mkdir ~/.termex
+cp -R . ~/.termex || die 1 "Copying failed."
 cd ~/.termex
 git checkout tags/$TERMEX || die 2 "Git checkout failed."
 

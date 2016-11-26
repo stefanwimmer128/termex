@@ -5,7 +5,8 @@ edit_path=true
 if [ -d ~/.termex ]
 then
     echo "Termex is already installed!"
-    read -p "Update? [Y|n]" -n 1 update < /dev/tty
+    read -p "Update? [Y|n]" -n 1 -s update < /dev/tty
+    echo ""
     
     if [ ! "$update" == "n" ]
     then

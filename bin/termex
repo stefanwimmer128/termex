@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-export TERMEX="1.0.0-beta.1"
+export TERMEX="1.0.0-beta.2"
 
 if [ -t 1 ]
 then
@@ -25,12 +25,12 @@ fi
 
 function warn()
 {
-    echo "${yellow}WARN${normal}: $@" >&2
+    echo "${yellow}WARN:$normal $@" >&2
 }
 
 function err()
 {
-    echo "${red}ERROR${normal}: $@" >&2
+    echo "${red}ERROR:$normal $@" >&2
 }
 
 function die()
@@ -41,15 +41,21 @@ function die()
 
 function dbg()
 {
-    IFS="," read -ra dbgs <<< "$DEBUG"
-    for dbg in "${dbgs[@]}"
+    IFS="," read -ra debugs <<< "$1"
+    for debug in "${debugs[@]}"
     do
-        if [[ $dbg == $1 ]]
-        then
-            echo "$blue$1$normal ${@:2}"
-        fi
+        IFS="," read -ra channels <<< "$DEBUG"
+        for channel in "${channels[@]}"
+        do
+            if [[ ${channel} == ${debug} ]]
+            then
+                echo -e "$blue$debug$normal\t${@:2}"
+            fi
+        done
     done
-    unset dbgs
+    
+    unset debugs
+    unset channels
 }
 
 function exit()

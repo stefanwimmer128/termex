@@ -19,11 +19,11 @@ fi
 
 [ -d ~/.termex ] && rm -dfr ~/.termex
 
-git clone -q https://github.com/stefanwimmer128/termex.git ~/.termex || exit
+git clone https://github.com/stefanwimmer128/termex.git ~/.termex -q || exit
 cd ~/.termex
 
 tags=( $(git tag) )
-git checkout -q tags/${tags[$(( ${#tags[@]}-1 ))]} || exit
+git checkout tags/${tags[$(( ${#tags[@]}-1 ))]} -q || exit
 
 if [ "$edit_path" == "true" ]
 then

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-export TERMEX="1.0.0-alpha.2"
+export TERMEX="1.0.0-alpha.3"
 
 if [ -t 1 ]
 then
@@ -23,9 +23,14 @@ then
     fi
 fi
 
+function warn()
+{
+    echo "${yellow}WARN${normal}: $@" >&2
+}
+
 function err()
 {
-    echo "${red}ERROR${normal}: $@"
+    echo "${red}ERROR${normal}: $@" >&2
 }
 
 function die()

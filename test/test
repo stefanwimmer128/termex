@@ -1,0 +1,5 @@
+#!./bin/termex
+
+echo "$bold${blue}Hello World!$stdout${normal}This is a test!"
+dbg test "Hello World!"
+dbg test2 "This is a test!"

@@ -1,28 +1,34 @@
-#!bin/termex
+#!/usr/bin/env bash
 
-dbg installer "Installation in progress..."
+edit_path=true
 
 if [ -d ~/.termex ]
 then
-    read -p "Termex is already installed. Update? [Y|n] " -n 1 update
-    echo ""
+    echo "Termex is already installed!"
+    read -p "Update? [Y|n]" -n 1 update
     
-    [ "$update" == "n" ] && exit
+    if [ ! "$update" == "n" ]
+    then
+        ~/.termex/update
+        exit
+    fi
     
-    dbg installer "Updating Termex..."
-    bin/termex-update
-    exit
+    edit_path=false
 fi
 
-dbg installer "Checking out latest version..."
-git checkout tags/$TERMEX || die 1 "Git checkout failed."
+[ -d ~/.termex ] && rm -dfr ~/.termex
 
-dbg installer "Copying files..."
-mkdir ~/.termex
-cp -r . ~/.termex || die 2 "Copying failed."
+git clone https://github.com/stefanwimmer128/termex.git ~/.termex > /dev/null
+cd ~/.termex
 
-dbg installer "Finishing up installation..."
-cat ~/.bashrc > "$(mktemp -p ~ .bashrc.XXXXXXXX)"
-echo -e "\nexport PATH=\"\$PATH:$(readlink -f ~/.termex/bin)\"" >> ~/.bashrc
+tags=( $(git tag) )
+git checkout tags/${tags[$(( ${#tags[@]}-1 ))]} > /dev/null
 
-dbg installer "Installation finished."
+if [ "$edit_path" == "true" ]
+then
+    cat ~/.bashrc > "$(mktemp -p ~ .bashrc.XXXX)"
+    echo -e "\n[ -d ~/.termex ] && [ -d ~/.termex/bin ] && export PATH=\"\$PATH:\$(readlink -f ~/.termex/bin)\"" >> ~/.bashrc
+fi
+
+unset edit_path
+unset tags

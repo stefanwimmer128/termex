@@ -10,7 +10,7 @@ then
     
     if [ ! "$update" == "n" ]
     then
-        ~/.termex/update
+        ~/.termex/updater
         exit
     fi
     
@@ -33,3 +33,5 @@ fi
 
 unset edit_path
 unset tags
+
+echo "Installation successful!"

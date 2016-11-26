@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+cd ~/.termex
+git fetch -q || exit
+
+tags=( $(git tag) )
+git checkout tags/${tags[$(( ${#tags[@]}-1 ))]} -q || exit
+
+echo "Update successful!"

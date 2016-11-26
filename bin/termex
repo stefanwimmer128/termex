@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-export TERMEX="1.0.0-beta.2"
+export TERMEX="1.0.0-rc.1"
 
 if [ -t 1 ]
 then
@@ -70,5 +70,7 @@ dbg termex "Termex initialized"
 [ -f "$1" ] || die 255 "No script to run!"
 
 dbg termex "Running script..."
-SCRIPT="$(readlink -f "$1")" . $1
+export SCRIPT="$1"
+shift
+. "$SCRIPT"
 exit

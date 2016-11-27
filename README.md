@@ -24,3 +24,35 @@ wget -qO- https://raw.githubusercontent.com/stefanwimmer128/termex/master/instal
 ``` bash
 ~/.termex/uninstaller
 ```
+
+## How to use
+
+### Running code vom /dev/stdin
+
+``` bash
+termex << eof
+echo \$TERMEX
+eof
+```
+
+This prints out the installed version.
+
+### Running script from file
+
+Either add a shebang line on the top of your script:
+
+``` bash
+#!/usr/bin/env termex
+```
+
+or run script in commandline
+
+``` bash
+termex /path/to/script
+```
+
+### Access the filename of the script
+
+Since the script is running as a subprocess the `$0` variable is the termex command.
+
+To access the script file use the `$SCRIPT` environment variable.

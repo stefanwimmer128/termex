@@ -25,12 +25,12 @@ fi
 
 function warn()
 {
-    echo "${yellow}WARN:$normal $@" >&2
+    echo "${yellow}WARN:$normal" "$@" >&2
 }
 
 function err()
 {
-    echo "${red}ERROR:$normal $@" >&2
+    echo "${red}ERROR:$normal" "$@" >&2
 }
 
 function die()
@@ -42,9 +42,11 @@ function die()
 function dbg()
 {
     IFS="," read -ra debugs <<< "$1"
+    
     for debug in "${debugs[@]}"
     do
         IFS="," read -ra channels <<< "$DEBUG"
+        
         for channel in "${channels[@]}"
         do
             if [[ ${channel} == ${debug} ]]
@@ -68,9 +70,11 @@ function exit()
 dbg termex "Termex initialized"
 
 export SCRIPT="${1:-/dev/stdin}"
-[ -f "$SCRIPT" ] || die -1 "No script to run!"
 shift
+
+[ -f "$SCRIPT" ] || die -1 "No script to run!"
 
 dbg termex "Running script..."
 . "$SCRIPT"
+
 exit

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-export TERMEX="1.0.0-rc.1"
+export TERMEX="1.0.0-rc.2"
 
 if [ -t 1 ]
 then
@@ -67,10 +67,10 @@ function exit()
 
 dbg termex "Termex initialized"
 
-[ -f "$1" ] || die 255 "No script to run!"
+export SCRIPT="${1:-/dev/stdin}"
+[ -f "$SCRIPT" ] || die -1 "No script to run!"
+shift
 
 dbg termex "Running script..."
-export SCRIPT="$1"
-shift
 . "$SCRIPT"
 exit

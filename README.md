@@ -18,3 +18,9 @@ wget -qO- https://raw.githubusercontent.com/stefanwimmer128/termex/master/instal
 ``` bash
 ~/.termex/updater
 ```
+
+## How to uninstall
+
+``` bash
+~/.termex/uninstaller
+```

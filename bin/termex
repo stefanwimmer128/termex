@@ -41,10 +41,12 @@ function die()
 
 function dbg()
 {
+    local debugs
     IFS="," read -ra debugs <<< "$1"
     
     for debug in "${debugs[@]}"
     do
+        local channels
         IFS="," read -ra channels <<< "$DEBUG"
         
         for channel in "${channels[@]}"
@@ -55,9 +57,6 @@ function dbg()
             fi
         done
     done
-    
-    unset debugs
-    unset channels
 }
 
 function exit()

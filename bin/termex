@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 
-export TERMEX="1.0.0"
+export TERMEX_DIR="$(dirname "$(dirname "$(readlink -f "$0")")")"
+export TERMEX="1.1.0"
+
+export PATH="$TERMEX_DIR/lib:$PATH"
 
 if [ -t 1 ]
 then
@@ -59,6 +62,42 @@ function dbg()
     done
 }
 
+function array()
+{
+    source /dev/stdin << eof
+$1=( "\${@:2}" )
+
+function $1.index()
+{
+    seq -l \${#$1[@]}
+}
+
+function $1.each()
+{
+    $1.index | while read i; do eval "\"\$1\" \"\${$1[\$i]}\" \$i"; done
+}
+eof
+    if [ "$1" == "argv" ]
+    then
+        source /dev/stdin << eof
+function $1.shift()
+{
+    eval "$1=( \"\${$1[0]}\" \"\\\${$1[@]:\$((\${1:-1}+1))}\" )"
+}
+eof
+    else
+        source /dev/stdin << eof
+function $1.shift()
+{
+    eval "$1=( \"\\\${$1[@]:\${1:-1}}\" )"
+}
+eof
+    fi
+}
+
+array argv "$@"
+shift
+
 function exit()
 {
     local err=${1:-$?}
@@ -68,12 +107,9 @@ function exit()
 
 dbg termex "Termex initialized"
 
-export SCRIPT="${1:-/dev/stdin}"
-shift
-
-[ -f "$SCRIPT" ] || die -1 "No script to run!"
+[ -f "${argv[0]}" ] || die -1 "No script to run!"
 
 dbg termex "Running script..."
-. "$SCRIPT"
+. "${argv[0]}"
 
 exit

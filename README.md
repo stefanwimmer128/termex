@@ -4,6 +4,7 @@
 
 - Git (only for installation and update)
 - Bash
+- Python 3
 
 ## How to install
 
@@ -55,4 +56,4 @@ termex /path/to/script
 
 Since the script is running as a subprocess the `$0` variable is the termex command.
 
-To access the script file use the `$SCRIPT` environment variable.
+To access the script file use the `${argv[0]}` environment variable.

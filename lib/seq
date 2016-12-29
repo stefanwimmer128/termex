@@ -1,0 +1,78 @@
+#!/usr/bin/env python
+
+from argparse import ArgumentParser
+
+argparse = ArgumentParser(description ="print a sequence of numbers", epilog ="For more informations see GNU coreutils: http://www.gnu.org/software/coreutils/")
+
+argparse.add_argument("-v", "--version", action ="version", version ="1.0.0-rc.1")
+
+argparse.add_argument("-s", "--seperator", default ="\n", help ="use SEPERATOR to seperate numbers (default: \\n)")
+
+format_width = argparse.add_mutually_exclusive_group()
+format_width.add_argument("-f", "--format", help = "use printf style floating-point FORMAT")
+format_width.add_argument("-w", "--equal-width", action = "store_true", help = "equalize width by padding with leading zeroes")
+
+argparse.add_argument("-l", "--len", "--length", action ="store_true", dest = "length", help ="starting with 0 incrementing 1 till 1 less then LAST")
+
+argparse.add_argument("first", default ="1", help ="number to start with", nargs ="?", metavar = "FIRST")
+argparse.add_argument("increment", default ="1", help ="number to increment by", nargs ="?", metavar = "INCREMENT")
+argparse.add_argument("last", help ="number to stop at", metavar = "LAST")
+
+args = argparse.parse_args()
+
+def num(num):
+    num = float(num)
+    if num == int(num):
+        num = int(num)
+    return num
+
+first = num(args.first)
+increment = num(args.increment)
+last = num(args.last)
+
+if args.length:
+    first = 0
+    increment = 1
+    last -= 1
+
+seq_format = args.format
+
+def prec(num):
+    num = str(num).split(".")
+    if len(num) <= 1:
+        return 0
+    return len(num[1])
+
+max_prec = max([ prec(first), prec(increment), prec(last) ])
+
+if seq_format is None:
+    seq_format = "%." + str(max_prec) + "f"
+
+seq = []
+
+def condition():
+    if increment > 0:
+        return first <= last
+    if increment < 0:
+        return last <= first
+    return True
+
+while condition():
+    seq.append(seq_format % first)
+    if increment == 0:
+        break
+    first = num(("%." + str(max_prec) + "f") % (first + increment))
+
+if args.equal_width:
+    max_len = 0
+    
+    for i in range(0, len(seq) - 1):
+        if len(seq[i]) > max_len:
+            max_len = len(seq[i])
+    
+    for i in range(0, len(seq) - 1):
+        while len(seq[i]) < max_len:
+            seq[i] = "0" + seq[i]
+
+if len(seq) > 0:
+    print(args.seperator.join(seq))

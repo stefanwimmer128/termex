@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 export TERMEX_DIR="$(dirname "$(dirname "$(readlink -f "$0")")")"
-export TERMEX="1.1.0"
+export TERMEX="1.2.0"
 
 export PATH="$TERMEX_DIR/lib:$PATH"
 
@@ -107,9 +107,25 @@ function exit()
 
 dbg termex "Termex initialized"
 
-[ -f "${argv[0]}" ] || die -1 "No script to run!"
-
-dbg termex "Running script..."
-. "${argv[0]}"
+if [ "${#argv[@]}" -ge 1 ]
+then
+    if [ -f "${argv[0]}" ]
+    then
+        dbg termex "Running script..."
+        . "${argv[0]}"
+    else
+        die 1 "Script does not exist!"
+    fi
+elif [ -f "/dev/stdin" ]
+then
+    dbg termex "Running from stdin..."
+    . /dev/stdin
+else
+    dbg termex "Running Termex CLI..."
+    while read -p "(termex) $PWD\$ " cmd
+    do
+        eval "$cmd"
+    done
+fi
 
 exit

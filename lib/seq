@@ -2,9 +2,9 @@
 
 from argparse import ArgumentParser
 
-argparse = ArgumentParser(description ="print a sequence of numbers", epilog ="For more informations see GNU coreutils: http://www.gnu.org/software/coreutils/")
+argparse = ArgumentParser(description ="print a sequence of numbers")
 
-argparse.add_argument("-v", "--version", action ="version", version ="1.0.0-rc.1")
+argparse.add_argument("-v", "--version", action ="version", version ="1.0.0")
 
 argparse.add_argument("-s", "--seperator", default ="\n", help ="use SEPERATOR to seperate numbers (default: \\n)")
 

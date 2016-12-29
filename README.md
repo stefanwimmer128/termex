@@ -4,7 +4,7 @@
 
 - Git (only for installation and update)
 - Bash
-- Python 3
+- Python 2+
 
 ## How to install
 

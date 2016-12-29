@@ -28,6 +28,14 @@ wget -qO- https://raw.githubusercontent.com/stefanwimmer128/termex/master/instal
 
 ## How to use
 
+### Using Termex CLI
+
+``` bash
+termex
+```
+
+This opens a command line interface that accepts any commands Termex includes.
+
 ### Running code vom /dev/stdin
 
 ``` bash

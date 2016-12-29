@@ -4,7 +4,7 @@ from argparse import ArgumentParser
 
 argparse = ArgumentParser(description ="print a sequence of numbers")
 
-argparse.add_argument("-v", "--version", action ="version", version ="1.0.0")
+argparse.add_argument("-v", "--version", action ="version", version ="1.1.0")
 
 argparse.add_argument("-s", "--seperator", default ="\n", help ="use SEPERATOR to seperate numbers (default: \\n)")
 
@@ -13,6 +13,8 @@ format_width.add_argument("-f", "--format", help = "use printf style floating-po
 format_width.add_argument("-w", "--equal-width", action = "store_true", help = "equalize width by padding with leading zeroes")
 
 argparse.add_argument("-l", "--len", "--length", action ="store_true", dest = "length", help ="starting with 0 incrementing 1 till 1 less then LAST")
+
+argparse.add_argument("-W", "--formatted-equal-width", help = "equalize with by padding with leading CHAR", metavar = "CHAR")
 
 argparse.add_argument("first", default ="1", help ="number to start with", nargs ="?", metavar = "FIRST")
 argparse.add_argument("increment", default ="1", help ="number to increment by", nargs ="?", metavar = "INCREMENT")
@@ -63,7 +65,7 @@ while condition():
         break
     first = num(("%." + str(max_prec) + "f") % (first + increment))
 
-if args.equal_width:
+if args.equal_width or args.formatted_equal_width is not None:
     max_len = 0
     
     for i in range(0, len(seq) - 1):
@@ -72,7 +74,10 @@ if args.equal_width:
     
     for i in range(0, len(seq) - 1):
         while len(seq[i]) < max_len:
-            seq[i] = "0" + seq[i]
+            if args.formatted_equal_width is None:
+                seq[i] = "0" + seq[i]
+            else:
+                seq[i] = args.formatted_equal_width + seq[i]
 
 if len(seq) > 0:
     print(args.seperator.join(seq))

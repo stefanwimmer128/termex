@@ -59,3 +59,7 @@ This prints out the installed version.
 Since the script is running as a subprocess the `$0` variable is the termex command.
 
 To access the script file use the `${argv[0]}` environment variable.
+
+### Additional configuration
+
+Use the .termexrc file in the Termex installation directory like the .bashrc file.

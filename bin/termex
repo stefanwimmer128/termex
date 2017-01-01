@@ -3,6 +3,8 @@
 export TERMEX_DIR="$(dirname "$(dirname "$(readlink -f "$0")")")"
 export TERMEX="$(cat "$TERMEX_DIR/version.txt")"
 
+[ -f "$TERMEX_DIR/.termexrc" ] && source "$TERMEX_DIR/.termexrc"
+
 export PATH="$TERMEX_DIR/lib:$PATH"
 
 if [ -t 1 ]
@@ -126,7 +128,7 @@ then
     then
         dbg termex "Running script..."
         
-        . "${argv[0]}"
+        source "${argv[0]}"
     else
         die 1 "Script does not exist!"
     fi
@@ -134,11 +136,11 @@ elif [ -f "/dev/stdin" ]
 then
     dbg termex "Running from stdin..."
     
-    . /dev/stdin
+    source /dev/stdin
 else
     dbg termex "Running Termex CLI..."
     
-    while read -p "(termex) $PWD\$ " cmd
+    while read -p "$(eval "echo -e \"$TERMEX_CLI\"")" cmd
     do
         eval "$cmd"
     done

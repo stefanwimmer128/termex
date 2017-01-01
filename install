@@ -23,7 +23,7 @@ git clone https://github.com/stefanwimmer128/termex.git "$TERMEX_DIR" || die "gi
 
 cd "$TERMEX_DIR"
 
-git checkout $(git describe --tags --abbrev=1) || die "git checkout error"
+git checkout $(git describe --tags $(git rev-list --tags --max-count=1)) || die "git checkout error"
 
 cat << eof
 

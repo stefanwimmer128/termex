@@ -1,8 +1,0 @@
-#!/usr/bin/env bash
-
-cd ~/.termex
-git fetch -q || exit
-
-git checkout tags/$(git describe --tags $(git rev-list --tags --max-count=1)) -q || exit
-
-echo "Update successful!"

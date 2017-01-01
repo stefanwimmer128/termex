@@ -1,24 +1,26 @@
 #!/usr/bin/env python
 
 from argparse import ArgumentParser
+from os import path
+from subprocess import check_output
 
 argparse = ArgumentParser(description ="print a sequence of numbers")
 
-argparse.add_argument("-v", "--version", action ="version", version ="1.1.0")
+argparse.add_argument("-v", "--version", action = "version", version = str(check_output([ "cat", path.dirname(path.realpath(__file__)) + "/../version.txt" ]))[2:-3])
 
-argparse.add_argument("-s", "--seperator", default ="\n", help ="use SEPERATOR to seperate numbers (default: \\n)")
+argparse.add_argument("-s", "--seperator", default = "\n", help = "use SEPERATOR to seperate numbers (default: \\n)")
 
 format_width = argparse.add_mutually_exclusive_group()
 format_width.add_argument("-f", "--format", help = "use printf style floating-point FORMAT")
 format_width.add_argument("-w", "--equal-width", action = "store_true", help = "equalize width by padding with leading zeroes")
 
-argparse.add_argument("-l", "--len", "--length", action ="store_true", dest = "length", help ="starting with 0 incrementing 1 till 1 less then LAST")
+argparse.add_argument("-l", "--len", "--length", action = "store_true", dest = "length", help = "starting with 0 incrementing 1 till 1 less then LAST")
 
 argparse.add_argument("-W", "--formatted-equal-width", help = "equalize with by padding with leading CHAR", metavar = "CHAR")
 
-argparse.add_argument("first", default ="1", help ="number to start with", nargs ="?", metavar = "FIRST")
-argparse.add_argument("increment", default ="1", help ="number to increment by", nargs ="?", metavar = "INCREMENT")
-argparse.add_argument("last", help ="number to stop at", metavar = "LAST")
+argparse.add_argument("first", default = "1", help = "number to start with", nargs = "?", metavar = "FIRST")
+argparse.add_argument("increment", default = "1", help = "number to increment by", nargs = "?", metavar = "INCREMENT")
+argparse.add_argument("last", help = "number to stop at", metavar = "LAST")
 
 args = argparse.parse_args()
 

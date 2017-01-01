@@ -1,5 +1,0 @@
-#!/usr/bin/env bash
-
-rm -dfr ~/.termex
-
-sed -i "/.*termex.*/d" ~/.bashrc

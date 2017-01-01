@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+TERMEX_DIR="$(dirname "$(readlink -f "$0")")"
+
+if [ ! "$TERMEX" == "$(cat "$TERMEX_DIR/version.txt")" ]
+then
+    "$TERMEX_DIR/bin/termex" "$TERMEX_DIR/update"
+fi
+
+cd "$TERMEX_DIR"
+
+git fetch || die "git fetch error"
+
+git checkout tags/$(git describe --tags $(git rev-list --tags --max-count=1)) || "git checkout error"

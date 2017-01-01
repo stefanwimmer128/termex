@@ -9,21 +9,15 @@
 ## How to install
 
 ``` bash
-curl -o- https://raw.githubusercontent.com/stefanwimmer128/termex/master/installer | bash
+curl -o- https://raw.githubusercontent.com/stefanwimmer128/termex/master/install | bash
 # or
-wget -qO- https://raw.githubusercontent.com/stefanwimmer128/termex/master/installer | bash
+wget -qO- https://raw.githubusercontent.com/stefanwimmer128/termex/master/install | bash
 ```
 
 ## How to update
 
 ``` bash
-~/.termex/updater
-```
-
-## How to uninstall
-
-``` bash
-~/.termex/uninstaller
+"$TERMEX_DIR/update"
 ```
 
 ## How to use
@@ -34,17 +28,7 @@ wget -qO- https://raw.githubusercontent.com/stefanwimmer128/termex/master/instal
 termex
 ```
 
-This opens a command line interface that accepts any commands Termex includes.
-
-### Running code vom /dev/stdin
-
-``` bash
-termex << eof
-echo \$TERMEX
-eof
-```
-
-This prints out the installed version.
+This opens a command line that accepts any commands Termex includes.
 
 ### Running script from file
 
@@ -59,6 +43,16 @@ or run script in commandline
 ``` bash
 termex /path/to/script
 ```
+
+### Running code vom /dev/stdin
+
+``` bash
+termex << eof
+echo \$TERMEX
+eof
+```
+
+This prints out the installed version.
 
 ### Access the filename of the script
 

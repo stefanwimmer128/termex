@@ -1,0 +1,34 @@
+#!/usr/bin/env bash
+
+TERMEX_DIR="$(readlink -f "${TERMEX_DIR:-$HOME/.termex}")"
+
+function die()
+{
+    err=$?
+    if [ $1 -eq $1 ] &> /dev/null
+    then
+        err=$1
+        shift
+    fi
+    echo "ERROR: $@"
+    exit $err
+}
+
+if [ -d "$TERMEX_DIR" ]
+then
+    die 1 "TERMEX_DIR already exists!"
+fi
+
+git clone https://github.com/stefanwimmer128/termex.git "$TERMEX_DIR" || die "git clone error"
+
+cd "$TERMEX_DIR"
+
+git checkout tags/$(git describe --tags $(git rev-list --tags --max-count=1)) || die "git checkout error"
+
+cat << eof
+To finish installation add the following line to .bashrc / .bash_profile / etc.:
+
+# Termex setup
+export TERMEX_DIR="$TERMEX_DIR"
+[ -d "\$TERMEX_DIR" ] && [ -d "\$TERMEX_DIR/bin" ] && export PATH="\$TERMEX_DIR/bin:\$PATH"
+eof

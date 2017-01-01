@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 export TERMEX_DIR="$(dirname "$(dirname "$(readlink -f "$0")")")"
-export TERMEX="1.3.0"
+export TERMEX="$(cat "$TERMEX_DIR/version.txt")"
 
 export PATH="$TERMEX_DIR/lib:$PATH"
 
@@ -38,8 +38,14 @@ function err()
 
 function die()
 {
-    err "${@:2}"
-    exit $1
+    local err=$?
+    if [ $1 -eq $1 ] &> /dev/null
+    then
+        err=$1
+        shift
+    fi
+    err "$@"
+    exit $err
 }
 
 function dbg()

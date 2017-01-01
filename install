@@ -26,7 +26,8 @@ cd "$TERMEX_DIR"
 git checkout tags/$(git describe --tags $(git rev-list --tags --max-count=1)) || die "git checkout error"
 
 cat << eof
-To finish installation add the following line to .bashrc / .bash_profile / etc.:
+
+To finish installation add the following line to .bashrc / .bash_profile / etc. (This is not required for portable installation):
 
 # Termex setup
 export TERMEX_DIR="$TERMEX_DIR"

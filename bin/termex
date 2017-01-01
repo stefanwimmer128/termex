@@ -24,6 +24,8 @@ then
         export cyan="$(tput setaf 6)"
         export white="$(tput setaf 7)"
     fi
+    
+    unset ncolors
 fi
 
 function warn()
@@ -73,9 +75,14 @@ function array()
     source /dev/stdin << eof
 $1=( "\${@:2}" )
 
+function $1.size()
+{
+    echo \${#$1[@]}
+}
+
 function $1.index()
 {
-    seq -l \${#$1[@]}
+    seq -l \$($1.size)
 }
 
 function $1.each()
@@ -113,11 +120,12 @@ function exit()
 
 dbg termex "Termex initialized"
 
-if [ "${#argv[@]}" -ge 1 ]
+if [ "$(argv.size)" -ge 1 ]
 then
     if [ -f "${argv[0]}" ]
     then
         dbg termex "Running script..."
+        
         . "${argv[0]}"
     else
         die 1 "Script does not exist!"
@@ -125,9 +133,11 @@ then
 elif [ -f "/dev/stdin" ]
 then
     dbg termex "Running from stdin..."
+    
     . /dev/stdin
 else
     dbg termex "Running Termex CLI..."
+    
     while read -p "(termex) $PWD\$ " cmd
     do
         eval "$cmd"

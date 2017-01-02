@@ -1,4 +1,0 @@
-#!/usr/bin/env bash
-
-# Termex CLI prompt
-export TERMEX_CLI="(termex) \$PWD\\\$ "

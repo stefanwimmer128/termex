@@ -3,7 +3,7 @@
 export TERMEX_DIR="$(dirname "$(dirname "$(readlink -f "$0")")")"
 export TERMEX="$(cat "$TERMEX_DIR/version.txt")"
 
-export TERMEX_CLI="(termex) \$PWD\\\$"
+export TERMEX_CLI="(termex) \\\$PWD\\\\\\\$ "
 
 [ -f "$TERMEX_DIR/.termexrc" ] && source "$TERMEX_DIR/.termexrc"
 

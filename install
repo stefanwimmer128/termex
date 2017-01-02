@@ -25,11 +25,11 @@ cd "$TERMEX_DIR"
 
 git checkout $(git describe --tags $(git rev-list --tags --max-count=1)) || die "git checkout error"
 
-cat >> "$TERMEX_DIR/.termexrc" << eof
+cat > "$TERMEX_DIR/.termexrc" << eof
 #!/usr/bin/env bash
 
 # Termex CLI prompt
-## export TERMEX_CLI="(termex) \\\$PWD\\\\\\\$"
+## export TERMEX_CLI="(termex) \\\$PWD\\\\\\\$ "
 eof
 
 cat << eof
